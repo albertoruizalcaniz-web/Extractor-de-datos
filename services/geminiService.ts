@@ -12,10 +12,11 @@ export async function extractDataFromPdfText(text: string): Promise<EmployeeData
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",
             contents: `
-                Extrae el nombre del empleado ("Nombre de empleado") y sus horas semanales ("jornada semanal en horas/sem") del siguiente texto.
-                El texto ha sido extraído de un PDF y puede contener errores de formato.
-                Por favor, identifica todas las entradas de empleados.
-                
+                Tu tarea es extraer datos de empleados de manera rápida y precisa del siguiente texto.
+                El texto ha sido extraído de uno o más archivos PDF y puede contener errores de formato.
+                Busca todas las entradas que contengan un "Nombre de empleado" y su "jornada semanal en horas/sem".
+                Devuelve todas las entradas que encuentres en un único array JSON.
+
                 Texto a analizar:
                 ---
                 ${text}
@@ -50,7 +51,6 @@ export async function extractDataFromPdfText(text: string): Promise<EmployeeData
             throw new Error("La API no devolvió una matriz válida.");
         }
 
-        // Validate structure
         const validatedData = parsedData.filter(item => 
             typeof item === 'object' &&
             item !== null &&
