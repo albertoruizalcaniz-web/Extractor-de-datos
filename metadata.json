@@ -1,0 +1,5 @@
+{
+  "name": "PDF Data Extractor",
+  "description": "An application to upload a PDF file and extract employee names and their weekly hours using the Gemini API for analysis.",
+  "requestFramePermissions": []
+}
