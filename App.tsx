@@ -4,7 +4,7 @@ import { EmployeeData } from './types';
 import FileUpload from './components/FileUpload';
 import DataTable from './components/DataTable';
 import Loader from './components/Loader';
-import { LogoIcon, FileIcon, TrashIcon } from './components/Icons';
+import { LogoIcon, FileIcon, TrashIcon, SpinnerIcon } from './components/Icons';
 
 declare const pdfjsLib: any;
 
@@ -94,8 +94,8 @@ const App: React.FC = () => {
               <h3 className="text-lg font-semibold text-gray-300 mb-3">Archivos Seleccionados</h3>
               <ul className="space-y-2 max-h-48 overflow-y-auto pr-2">
                 {selectedFiles.map((file, index) => (
-                    <li key={index} className="flex items-center justify-between bg-gray-700/50 p-3 rounded-lg">
-                        <div className="flex items-center gap-3">
+                    <li key={index} className="flex items-center justify-between bg-gray-700/50 p-3 rounded-lg animate-fade-in">
+                        <div className="flex items-center gap-3 min-w-0">
                             <FileIcon className="w-6 h-6 text-cyan-400 flex-shrink-0" />
                             <span className="text-sm font-medium text-gray-200 truncate">{file.name}</span>
                         </div>
@@ -109,9 +109,16 @@ const App: React.FC = () => {
                 <button 
                   onClick={handleFileProcess} 
                   disabled={isProcessing}
-                  className="w-full sm:w-auto px-8 py-3 bg-cyan-600 text-white font-bold rounded-lg hover:bg-cyan-500 disabled:bg-gray-600 disabled:cursor-not-allowed transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+                  className="w-full sm:w-auto px-8 py-3 flex items-center justify-center gap-3 bg-cyan-600 text-white font-bold rounded-lg hover:bg-cyan-500 disabled:bg-gray-600 disabled:cursor-not-allowed transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-gray-900"
                 >
-                  {isProcessing ? 'Procesando...' : `Analizar ${selectedFiles.length} Archivo(s)`}
+                  {isProcessing ? (
+                    <>
+                      <SpinnerIcon className="w-5 h-5" />
+                      <span>Procesando...</span>
+                    </>
+                  ) : (
+                    <span>{`Analizar ${selectedFiles.length} Archivo(s)`}</span>
+                  )}
                 </button>
               </div>
             </div>

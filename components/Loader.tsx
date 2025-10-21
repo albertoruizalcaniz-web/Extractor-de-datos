@@ -27,7 +27,7 @@ const Loader: React.FC<LoaderProps> = ({ status }) => {
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
         ></path>
       </svg>
-      <p className="mt-4 text-lg font-semibold text-gray-200">{status}</p>
+      <p className="mt-4 text-lg font-semibold text-gray-200 animate-pulse">{status}</p>
       <p className="text-sm text-gray-500">Por favor, espera un momento.</p>
     </div>
   );

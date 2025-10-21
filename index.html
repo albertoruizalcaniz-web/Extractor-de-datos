@@ -6,24 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PDF Data Extractor Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- PDF.js from CDNJS for stability -->
+    
+    <!-- Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <!-- jsPDF for downloading data -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
-  <script type="importmap">
+    
+    <!-- React and Babel for universal compatibility -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="importmap">
 {
   "imports": {
     "react": "https://aistudiocdn.com/react@^19.2.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.25.0"
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
   }
 }
 </script>
 </head>
   <body class="bg-gray-900 text-white">
-    <div id="root" class="bg-gradient-to-br from-gray-900 via-purple-900/50 to-blue-900/70"></div>
-    <script type="module" src="/index.tsx"></script>
+    <div id="root" class="bg-gradient-to-br from-gray-900 via-purple-900/50 to-blue-900/70 min-h-screen"></div>
+    
+    <!-- Main application script, processed by Babel -->
+    <script type="text/babel" data-type="module" src="/index.tsx"></script>
   </body>
 </html>

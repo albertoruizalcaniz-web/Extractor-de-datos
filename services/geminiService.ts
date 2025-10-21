@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI, Type } from "https://esm.sh/@google/genai@1.25.0";
 import { EmployeeData } from '../types';
 
 export async function extractDataFromPdfText(text: string): Promise<EmployeeData[]> {
