@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type } from "https://esm.sh/@google/genai@1.25.0";
-import { EmployeeData } from '../types';
+import { EmployeeData } from '../types.ts';
 
 export async function extractDataFromPdfText(text: string): Promise<EmployeeData[]> {
     if (!process.env.API_KEY) {

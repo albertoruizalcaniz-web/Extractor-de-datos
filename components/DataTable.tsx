@@ -1,6 +1,6 @@
 import React from 'react';
-import { EmployeeData } from '../types';
-import { DownloadIcon } from './Icons';
+import { EmployeeData } from '../types.ts';
+import { DownloadIcon } from './Icons.tsx';
 
 declare const jspdf: any;
 
@@ -11,26 +11,41 @@ interface DataTableProps {
 
 const DataTable: React.FC<DataTableProps> = ({ data, fileNames }) => {
 
+    const getConditionalText = (weeklyHours: string): string => {
+        const hoursMatch = weeklyHours.match(/\d+/);
+        if (hoursMatch) {
+            const hours = parseInt(hoursMatch[0], 10);
+            if (hours >= 35 || hours <= 16) {
+                return "NO APLICA";
+            }
+        }
+        return "";
+    };
+
     const handleDownloadPdf = () => {
         const { jsPDF } = jspdf;
         const doc = new jsPDF();
         
-        doc.autoTable({
-            head: [['Nombre de Empleado', 'Jornada Semanal']],
-            body: data.map(item => [item.employeeName, item.weeklyHours]),
-            startY: 25,
-            headStyles: { fillColor: [22, 78, 99] }, // A dark cyan color
-            didDrawPage: (data: any) => {
-              // Header
-              doc.setFontSize(18);
-              doc.setTextColor(40);
-              doc.text("Datos Extraídos de PDF", data.settings.margin.left, 15);
-              // Footer
-              doc.setFontSize(8);
-              doc.setTextColor(100);
-              const pageStr = `Página ${doc.internal.getNumberOfPages()}`;
-              doc.text(pageStr, data.settings.margin.left, doc.internal.pageSize.height - 10);
-            },
+        doc.setFontSize(18);
+        doc.setTextColor(40);
+        doc.text("Datos Extraídos de PDF", 14, 22);
+
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text(`Archivos: ${fileNames.join(', ')}`, 14, 30);
+
+        doc.setFontSize(11);
+        doc.setTextColor(0);
+        let y = 45;
+        data.forEach(item => {
+            if (y > 280) { // Add a new page if content overflows
+                doc.addPage();
+                y = 20;
+            }
+            const conditionalText = getConditionalText(item.weeklyHours);
+            const line = `${item.employeeName} - ${item.weeklyHours}${conditionalText ? ` - ${conditionalText}` : ''}`;
+            doc.text(line, 14, y);
+            y += 7;
         });
 
         doc.save('datos_extraidos.pdf');
@@ -63,31 +78,22 @@ const DataTable: React.FC<DataTableProps> = ({ data, fileNames }) => {
                 <span className="hidden sm:inline">Descargar PDF</span>
             </button>
         </div>
-      <div className="overflow-auto max-h-96 rounded-b-lg">
-        <table className="min-w-full divide-y divide-gray-700">
-          <thead className="bg-gray-800/60 sticky top-0 backdrop-blur-sm">
-            <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                Nombre de Empleado
-              </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                Jornada Semanal
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-gray-800/40 divide-y divide-gray-700/50">
-            {data.map((item, index) => (
-              <tr key={index} className="hover:bg-gray-700/50 transition-colors duration-150">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
-                  {item.employeeName}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  {item.weeklyHours}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="overflow-auto max-h-96 px-4 pb-4 space-y-2">
+        {data.map((item, index) => {
+            const conditionalText = getConditionalText(item.weeklyHours);
+            return (
+                <div key={index} className="bg-gray-800/60 p-4 rounded-lg flex justify-between items-center hover:bg-gray-700/50 transition-colors duration-150">
+                    <p className="text-sm text-gray-300">
+                        <span className="font-medium text-white">{item.employeeName}</span> - {item.weeklyHours}
+                    </p>
+                    {conditionalText && (
+                        <span className="text-xs font-bold text-yellow-300 bg-yellow-900/50 px-2 py-1 rounded-md">
+                            {conditionalText}
+                        </span>
+                    )}
+                </div>
+            );
+        })}
       </div>
     </div>
   );

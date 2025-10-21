@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { extractDataFromPdfText } from './services/geminiService';
-import { EmployeeData } from './types';
-import FileUpload from './components/FileUpload';
-import DataTable from './components/DataTable';
-import Loader from './components/Loader';
-import { LogoIcon, FileIcon, TrashIcon, SpinnerIcon } from './components/Icons';
+import { extractDataFromPdfText } from './services/geminiService.ts';
+import { EmployeeData } from './types.ts';
+import FileUpload from './components/FileUpload.tsx';
+import DataTable from './components/DataTable.tsx';
+import Loader from './components/Loader.tsx';
+import { LogoIcon, FileIcon, TrashIcon, SpinnerIcon } from './components/Icons.tsx';
 
 declare const pdfjsLib: any;
 
